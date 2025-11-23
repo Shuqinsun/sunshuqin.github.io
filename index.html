@@ -1,12 +1,696 @@
-html
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>张三的个人主页</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李明博士 - 科研人员个人主页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #34495e;
+            --light-text: #ecf0f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏样式 */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color), #1a2530);
+            color: var(--light-text);
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            animation: fadeIn 2s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 关于我区域样式 */
+        .about {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        /* 研究方向区域样式 */
+        .research {
+            padding: 100px 0;
+            background-color: var(--light-color);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .research-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .research-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .research-card i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .research-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        /* 发表论文区域样式 */
+        .publications {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .publication-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .publication-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .publication-item:last-child {
+            border-bottom: none;
+        }
+
+        .publication-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .publication-authors {
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .publication-journal {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .publication-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .publication-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* 教学经历区域样式 */
+        .teaching {
+            padding: 100px 0;
+            background-color: var(--light-color);
+        }
+
+        .teaching-timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .teaching-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--secondary-color);
+            transform: translateX(-50%);
+        }
+
+        .teaching-item {
+            margin-bottom: 40px;
+            position: relative;
+            width: 50%;
+            padding: 20px;
+        }
+
+        .teaching-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .teaching-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .teaching-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .teaching-year {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        /* 联系区域样式 */
+        .contact {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            width: 30px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--light-text);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .teaching-timeline::before {
+                left: 30px;
+            }
+
+            .teaching-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 0;
+            }
+
+            .teaching-item:nth-child(even) {
+                left: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>你好，世界！</h1>
-    <p>欢迎来到我的个人主页！</p>
-    <p>我正在学习使用 GitHub Pages。</p>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">李明博士</a>
+                <ul class="nav-links">
+                    <li><a href="#about">关于我</a></li>
+                    <li><a href="#research">研究方向</a></li>
+                    <li><a href="#publications">发表论文</a></li>
+                    <li><a href="#teaching">教学经历</a></li>
+                    <li><a href="#contact">联系我</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>李明博士</h1>
+                <p>材料科学与工程研究员 | 纳米技术专家</p>
+                <p>专注于先进材料设计与应用研究</p>
+                <a href="#contact" class="btn">联系我</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我区域 -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-img">
+                    <!-- 这里可以替换为您的照片 -->
+                    <img src="https://via.placeholder.com/500x600" alt="李明博士">
+                </div>
+                <div class="about-text">
+                    <h3>个人简介</h3>
+                    <p>我是李明，材料科学与工程领域的研究员，拥有XX大学博士学位。我的研究兴趣主要集中在纳米材料、功能材料和能源材料的设计、合成与应用。</p>
+                    <p>目前，我在XX大学材料科学与工程学院担任副教授，并领导一个由5名博士生和3名硕士生组成的研究团队。我们的研究得到了国家自然科学基金和多项企业合作项目的支持。</p>
+                    <p>在过去的十年中，我在国际知名期刊上发表了50余篇学术论文，获得了多项科研奖励，并担任多个国际期刊的审稿人。</p>
+                    <a href="#" class="btn">下载完整简历</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 研究方向区域 -->
+    <section id="research" class="research">
+        <div class="container">
+            <h2 class="section-title">研究方向</h2>
+            <div class="research-grid">
+                <div class="research-card">
+                    <i class="fas fa-atom"></i>
+                    <h3>纳米材料合成</h3>
+                    <p>开发新型纳米材料的可控合成方法，研究其结构-性能关系。</p>
+                </div>
+                <div class="research-card">
+                    <i class="fas fa-battery-full"></i>
+                    <h3>能源材料</h3>
+                    <p>设计高效能源存储与转换材料，应用于锂离子电池和超级电容器。</p>
+                </div>
+                <div class="research-card">
+                    <i class="fas fa-microscope"></i>
+                    <h3>材料表征</h3>
+                    <p>利用先进表征技术研究材料微观结构与性能之间的关系。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 发表论文区域 -->
+    <section id="publications" class="publications">
+        <div class="container">
+            <h2 class="section-title">代表性论文</h2>
+            <div class="publication-list">
+                <div class="publication-item">
+                    <div class="publication-title">高性能锂离子电池用新型硅碳复合负极材料</div>
+                    <div class="publication-authors">李明, 张华, 王强</div>
+                    <div class="publication-journal">Advanced Materials, 2022, 34(15), 2105678</div>
+                    <div class="publication-links">
+                        <a href="#"><i class="fas fa-external-link-alt"></i> 全文链接</a>
+                        <a href="#"><i class="fas fa-file-pdf"></i> PDF下载</a>
+                    </div>
+                </div>
+                <div class="publication-item">
+                    <div class="publication-title">多功能纳米材料在环境修复中的应用</div>
+                    <div class="publication-authors">李明, 刘芳, 陈明</div>
+                    <div class="publication-journal">Nature Communications, 2021, 12, 3456</div>
+                    <div class="publication-links">
+                        <a href="#"><i class="fas fa-external-link-alt"></i> 全文链接</a>
+                        <a href="#"><i class="fas fa-file-pdf"></i> PDF下载</a>
+                    </div>
+                </div>
+                <div class="publication-item">
+                    <div class="publication-title">基于金属有机框架的多孔材料设计及其气体吸附性能研究</div>
+                    <div class="publication-authors">李明, 赵伟, 孙丽</div>
+                    <div class="publication-journal">Journal of the American Chemical Society, 2020, 142(8), 3892-3901</div>
+                    <div class="publication-links">
+                        <a href="#"><i class="fas fa-external-link-alt"></i> 全文链接</a>
+                        <a href="#"><i class="fas fa-file-pdf"></i> PDF下载</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教学经历区域 -->
+    <section id="teaching" class="teaching">
+        <div class="container">
+            <h2 class="section-title">教学经历</h2>
+            <div class="teaching-timeline">
+                <div class="teaching-item">
+                    <div class="teaching-content">
+                        <div class="teaching-year">2018-至今</div>
+                        <h3>XX大学 材料科学与工程学院</h3>
+                        <p>副教授，主讲《材料科学基础》、《纳米材料与技术》等课程</p>
+                    </div>
+                </div>
+                <div class="teaching-item">
+                    <div class="teaching-content">
+                        <div class="teaching-year">2015-2018</div>
+                        <h3>XX大学 材料科学与工程学院</h3>
+                        <p>助理教授，主讲《材料物理》、《材料表征技术》等课程</p>
+                    </div>
+                </div>
+                <div class="teaching-item">
+                    <div class="teaching-content">
+                        <div class="teaching-year">2012-2015</div>
+                        <h3>XX大学 博士后研究员</h3>
+                        <p>参与研究生课程教学，指导本科生毕业设计</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系区域 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>邮箱</h3>
+                            <p>liming@university.edu</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>电话</h3>
+                            <p>+86 123 4567 8900</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>地址</h3>
+                            <p>XX大学材料科学与工程学院，XX市，XX省</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>办公时间</h3>
+                            <p>周一至周五: 9:00 - 17:00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" placeholder="请输入您的姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input type="email" id="email" placeholder="请输入您的邮箱">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">主题</label>
+                        <input type="text" id="subject" placeholder="请输入邮件主题">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">消息</label>
+                        <textarea id="message" placeholder="请输入您的消息"></textarea>
+                    </div>
+                    <button type="submit" class="btn">发送消息</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 李明博士 - 个人主页</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-researchgate"></i></a>
+                    <a href="#"><i class="fab fa-google-scholar"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-orcid"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的导航栏响应式切换
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 简单的表单提交处理
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('感谢您的留言！我会尽快回复您。');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
